@@ -1,11 +1,8 @@
-import React from 'react'
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Auth0Provider, type AppState } from '@auth0/auth0-react';
-
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import './index.css';
+import App from './App.tsx';
 
 const onRedirectCallback = (appState?: AppState) => {
   window.history.replaceState(
@@ -15,7 +12,6 @@ const onRedirectCallback = (appState?: AppState) => {
   );
 };
 
-{/* Configurar Auth0 en el punto de entrada */ }
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Auth0Provider

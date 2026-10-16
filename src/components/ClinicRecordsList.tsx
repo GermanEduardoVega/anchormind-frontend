@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useApiClient } from '../api/apiClient';
-import type{ AnxietyRecordResponse } from '../types';
+import type { AnxietyRecordResponse } from '../types';
 
 interface Props {
   clinicId?: number;
@@ -47,7 +47,7 @@ export const ClinicRecordsList = ({ clinicId, clinicName }: Props) => {
 
   // 1. Cálculo de métricas estadísticas de la institución
   const stats = useMemo(() => {
-    if (records.length === 0) return { total: 0, avg: 0, criticalCount: 0 };
+    if (records.length === 0) return { total: 0, avg: '0.0', criticalCount: 0 };
 
     const total = records.length;
     const sumLevel = records.reduce((acc, r) => acc + (r.anxietyLevel || 0), 0);
@@ -91,7 +91,7 @@ export const ClinicRecordsList = ({ clinicId, clinicName }: Props) => {
           </div>
           <div style={{ background: '#2d3748', padding: '1rem', borderRadius: '8px', textAlign: 'center' }}>
             <span style={{ fontSize: '0.85rem', color: '#a0aec0' }}>Promedio de Ansiedad</span>
-            <h2 style={{ margin: '0.5rem 0 0', color: stats.avg >= 7 ? '#fc8181' : '#f6ad55' }}>
+            <h2 style={{ margin: '0.5rem 0 0', color: Number(stats.avg) >= 7 ? '#fc8181' : '#f6ad55' }}>
               {stats.avg} / 10
             </h2>
           </div>
@@ -170,7 +170,7 @@ export const ClinicRecordsList = ({ clinicId, clinicName }: Props) => {
               backgroundColor: '#2d3748',
               padding: '1rem',
               borderRadius: '6px',
-              borderLeft: `5px solid ${rec.anxietyLevel >= 7 ? '#e53e3e' : rec.anxietyLevel >= 4 ? '#dd6b20' : '#38a169'}`
+              borderLeft: `5px solid ${(rec.anxietyLevel || 0) >= 7 ? '#e53e3e' : (rec.anxietyLevel || 0) >= 4 ? '#dd6b20' : '#38a169'}`
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.85rem', color: '#cbd5e0' }}>

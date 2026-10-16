@@ -8,7 +8,7 @@ import { PatientRecordsList } from '../components/PatientRecordsList';
 import { ClinicRecordsList } from '../components/ClinicRecordsList';
 
 export const Dashboard = () => {
-  const { user, logout, getAccessTokenSilently } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
   const api = useApiClient(getAccessTokenSilently);
 
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -17,27 +17,27 @@ export const Dashboard = () => {
   const [refreshHistory, setRefreshHistory] = useState(0);
 
   useEffect(() => {
-  const fetchUserData = async () => {
-    // Priorizamos email para evitar colisiones con apodos o alias
-    const identifier = user?.email || user?.name || user?.nickname;
-    if (!identifier) return;
+    const fetchUserData = async () => {
+      // Priorizamos email para evitar colisiones con apodos o alias
+      const identifier = user?.email || user?.name || user?.nickname;
+      if (!identifier) return;
 
-    try {
-      setLoadingProfile(true);
-      const response = await api.get<UserProfile>(
-        `/api/v1/users/username/${encodeURIComponent(identifier)}`
-      );
-      setProfile(response.data);
-    } catch (err: any) {
-      console.error('Error al obtener perfil:', err);
-      setErrorMsg(err.response?.data?.message || 'No se pudo conectar con el backend.');
-    } finally {
-      setLoadingProfile(false);
-    }
-  };
+      try {
+        setLoadingProfile(true);
+        const response = await api.get<UserProfile>(
+          `/api/v1/users/username/${encodeURIComponent(identifier)}`
+        );
+        setProfile(response.data);
+      } catch (err: any) {
+        console.error('Error al obtener perfil:', err);
+        setErrorMsg(err.response?.data?.message || 'No se pudo conectar con el backend.');
+      } finally {
+        setLoadingProfile(false);
+      }
+    };
 
-  fetchUserData();
-}, [user]);
+    fetchUserData();
+  }, [user]);
 
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#171923', color: 'white' }}>
