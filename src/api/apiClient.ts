@@ -1,7 +1,13 @@
 import axios from 'axios';
 
+// Toma la variable de entorno o usa directamente la URL de Render
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  import.meta.env.VITE_API_URL ||
+  'https://anchormind-backend.onrender.com';
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080',
+  baseURL: API_BASE_URL,
 });
 
 export const useApiClient = (getAccessTokenSilently: () => Promise<string>) => {
